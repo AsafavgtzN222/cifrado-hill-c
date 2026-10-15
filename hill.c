@@ -101,3 +101,20 @@ int inversoModular(int a, int m)//funcion del inverso modular (encuentra el núm
             return x;                 
     return -1;                    
 }
+
+int calcularInversa(int K[N][N], int Kinv[N][N])//funcion para calcular la matriz inversa
+{
+    int det = determinante(K);             
+    if (mcd(det, MOD) != 1)                
+        return 0;                           
+    int detInv = inversoModular(det, MOD);  
+        Kinv[0][0] =  K[1][1];                  
+    Kinv[0][1] = -K[0][1];                
+    Kinv[1][0] = -K[1][0];
+    Kinv[1][1] =  K[0][0];
+
+    for (int i = 0; i < N; i++)             
+        for (int j = 0; j < N; j++)
+            Kinv[i][j] = (((Kinv[i][j] * detInv) % MOD) + MOD) % MOD;
+    return 1;                               
+}
