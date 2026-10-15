@@ -37,6 +37,12 @@ v[1] = letraANumero(b);
 multiplicarMatrizVector(K, v, r);
 printf("Resultado: %c%c\n", numeroALetra(r[0]), numeroALetra(r[1]));
 
+//Prueba del descifrado
+    int det = determinante(K);
+printf("Determinante: %d\n", det);
+printf("mcd(det, 26) = %d\n", mcd(det, MOD));
+printf("Inverso de det: %d\n", inversoModular(det, MOD));
+
     return 0;
 }//Fin funcion principal
 
