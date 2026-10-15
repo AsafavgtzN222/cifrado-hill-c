@@ -44,6 +44,13 @@ printf("Determinante: %d\n", det);
 printf("mcd(det, 26) = %d\n", mcd(det, MOD));
 printf("Inverso de det: %d\n", inversoModular(det, MOD));
 
+//Prueba calculando la matriz inversa
+int Kinv[N][N];
+if (calcularInversa(K, Kinv))
+    printf("Inversa: %d %d / %d %d\n", Kinv[0][0], Kinv[0][1], Kinv[1][0], Kinv[1][1]);
+else
+    printf("Esa clave no tiene inversa\n");
+
     return 0;
 }//Fin funcion principal
 
