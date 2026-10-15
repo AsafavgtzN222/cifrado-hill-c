@@ -7,6 +7,9 @@ int  letraANumero(char c);
 char numeroALetra(int n);
 void limpiarTexto(char *texto);
 void multiplicarMatrizVector(int K[N][N], int v[N], int resultado[N]);
+int mcd(int a, int b);
+int determinante(int K[N][N]);
+int inversoModular(int a, int m);
 
 int main(void)//Funcion principal
 {
@@ -66,4 +69,14 @@ void multiplicarMatrizVector(int K[N][N], int v[N], int resultado[N])
             resultado[i] += K[i][j] * v[j];           /* suma fila × vector */
         resultado[i] = ((resultado[i] % MOD) + MOD) % MOD;   /* dejalo entre 0 y 25 */
     }
+}
+
+int mcd(int a, int b)//Algoritmo de Euclides (mcd)
+{
+    while (b != 0) {         
+        int temp = b;        
+        b = a % b;           
+        a = temp;             
+    }
+    return a;                 
 }
