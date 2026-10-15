@@ -18,6 +18,21 @@ char msg[100] = "Asaf Avila Gutierrez";
 limpiarTexto(msg);
 printf("Limpio: %s\n", msg);   /* debe dar  ASAFAVILAGUTIERREZ */
 
+//prueba de funcion matriz por vector
+int K[N][N];
+int v[N], r[N];
+char a, b;
+
+printf("Clave (4 numeros: fila1 fila2): ");
+scanf("%d %d %d %d", &K[0][0], &K[0][1], &K[1][0], &K[1][1]);
+
+printf("Dos letras en MAYUSCULA: ");
+scanf(" %c %c", &a, &b);
+
+v[0] = letraANumero(a);
+v[1] = letraANumero(b);
+multiplicarMatrizVector(K, v, r);
+printf("Resultado: %c%c\n", numeroALetra(r[0]), numeroALetra(r[1]));
 
     return 0;
 }//Fin funcion principal
