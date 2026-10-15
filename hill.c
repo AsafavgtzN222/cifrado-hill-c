@@ -80,3 +80,17 @@ int mcd(int a, int b)//Algoritmo de Euclides (mcd)
     }
     return a;                 
 }
+
+int determinante(int K[N][N])//funcion para el determinante
+{
+    int det = K[0][0] * K[1][1] - K[0][1] * K[1][0];   
+    return ((det % MOD) + MOD) % MOD;                  
+}
+
+int inversoModular(int a, int m)//funcion del inverso modular (encuentra el número que necesitamos para calcular la matriz inversa.)
+{
+    for (int x = 1; x < m; x++)      
+        if ((a * x) % m == 1)         
+            return x;                 
+    return -1;                    
+}
