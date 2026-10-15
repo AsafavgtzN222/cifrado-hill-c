@@ -10,6 +10,7 @@ void multiplicarMatrizVector(int K[N][N], int v[N], int resultado[N]);
 int mcd(int a, int b);
 int determinante(int K[N][N]);
 int inversoModular(int a, int m);
+int calcularInversa(int K[N][N], int Kinv[N][N]);
 
 int main(void)//Funcion principal
 {
