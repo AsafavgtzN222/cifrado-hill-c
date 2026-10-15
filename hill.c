@@ -6,6 +6,7 @@
 int  letraANumero(char c);
 char numeroALetra(int n);
 void limpiarTexto(char *texto);
+void multiplicarMatrizVector(int K[N][N], int v[N], int resultado[N]);
 
 int main(void)//Funcion principal
 {
@@ -40,4 +41,14 @@ void limpiarTexto(char *texto)//Funcion para limpiar el texto de espacios y conv
     if (j % 2 != 0)
         texto[j++] = 'X';
     texto[j] = '\0';
+}
+
+void multiplicarMatrizVector(int K[N][N], int v[N], int resultado[N])
+{
+    for (int i = 0; i < N; i++) {                     /* una vuelta por cada fila de K */
+        resultado[i] = 0;                             /* empieza la suma en cero */
+        for (int j = 0; j < N; j++)                   /* recorre las columnas de esa fila */
+            resultado[i] += K[i][j] * v[j];           /* suma fila × vector */
+        resultado[i] = ((resultado[i] % MOD) + MOD) % MOD;   /* dejalo entre 0 y 25 */
+    }
 }
