@@ -11,6 +11,7 @@ int mcd(int a, int b);
 int determinante(int K[N][N]);
 int inversoModular(int a, int m);
 int calcularInversa(int K[N][N], int Kinv[N][N]);
+void cifrar(int K[N][N], const char *mensaje, char *resultado);
 
 int main(void)//Funcion principal
 {
@@ -124,4 +125,18 @@ int calcularInversa(int K[N][N], int Kinv[N][N])//funcion para calcular la matri
         for (int j = 0; j < N; j++)
             Kinv[i][j] = (((Kinv[i][j] * detInv) % MOD) + MOD) % MOD;
     return 1;                               
+}
+void cifrar(int K[N][N], const char *mensaje, char *resultado)
+{
+    int v[N], r[N];
+    int largo = strlen(mensaje);
+
+    for (int i = 0; i < largo; i += N) {          /* de 2 en 2 letras */
+        for (int j = 0; j < N; j++)
+            v[j] = letraANumero(mensaje[i + j]);  /* arma el vector */
+        multiplicarMatrizVector(K, v, r);         /* r = K * v (mod 26) */
+        for (int j = 0; j < N; j++)
+            resultado[i + j] = numeroALetra(r[j]);
+    }
+    resultado[largo] = '\0';
 }
