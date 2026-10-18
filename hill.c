@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ctype.h>//biblioteca de manejo de y clasificacion de caracteres
-
+#include <string.h>
+#define MAX 200 
 #define N   2    /* tamaño de la clave (2x2) */
 #define MOD 26   /* letras del alfabeto */
 int  letraANumero(char c);
@@ -12,16 +13,21 @@ int determinante(int K[N][N]);
 int inversoModular(int a, int m);
 int calcularInversa(int K[N][N], int Kinv[N][N]);
 void cifrar(int K[N][N], const char *mensaje, char *resultado);
+void limpiarBuffer(void);
+int  leerClave(int K[N][N]);
+void mostrarMatriz(int M[N][N]);
+void descifrar(int Kinv[N][N], const char *mensaje, char *resultado);
+
 
 int main(void)//Funcion principal
 {
-    printf("=== Cifrado de Hill ===\n");
-    printf("H = %d\n", letraANumero('H'));   /* debe dar 7 */
-printf("8 = %c\n", numeroALetra(8));     /* debe dar I */
+    
+    /*printf("H = %d\n", letraANumero('H'));  
+printf("8 = %c\n", numeroALetra(8));     
 
 char msg[100] = "Asaf Avila Gutierrez";
 limpiarTexto(msg);
-printf("Limpio: %s\n", msg);   /* debe dar  ASAFAVILAGUTIERREZ */
+printf("Limpio: %s\n", msg); 
 
 //prueba de funcion matriz por vector
 int K[N][N];
@@ -51,7 +57,78 @@ if (calcularInversa(K, Kinv))
     printf("Inversa: %d %d / %d %d\n", Kinv[0][0], Kinv[0][1], Kinv[1][0], Kinv[1][1]);
 else
     printf("Esa clave no tiene inversa\n");
+    
+    //Prueba de cifrar y descifrar (usa la clave 3 3 2 5 de arriba)
+char cifrado[MAX], descifrado[MAX];
+cifrar(K, "HOLA", cifrado);
+printf("HOLA -> %s\n", cifrado);             // debe dar LGHW
+descifrar(Kinv, cifrado, descifrado);
+printf("%s -> %s\n", cifrado, descifrado);   // LGHW -> HOLA
+    */
 
+     int K[N][N], Kinv[N][N];
+    int claveLista = 0;               
+    int opcion;
+    char texto[MAX], resultado[MAX];
+ 
+    do {
+        printf("\n=== Cifrado de Hill ===\n");
+        printf("1. Ingresar clave\n");
+        printf("2. Cifrar mensaje\n");
+        printf("3. Descifrar mensaje\n");
+        printf("0. Salir\n");
+        printf("Opcion: ");
+        if (scanf("%d", &opcion) != 1)    
+            opcion = -1;
+        limpiarBuffer();
+ 
+        switch (opcion) {
+        case 1:
+            if (leerClave(K) && calcularInversa(K, Kinv)) {
+                claveLista = 1;
+                printf("Clave valida. Su inversa (mod 26) es:\n");
+                mostrarMatriz(Kinv);
+            } else {
+                claveLista = 0;
+                printf("Clave invalida: no tiene inversa mod 26 o los datos no son numeros.\n");
+            }
+            limpiarBuffer();
+            break;
+ 
+        case 2:
+            if (!claveLista) {
+                printf("Primero ingresa una clave (opcion 1).\n");
+                break;
+            }
+            printf("Mensaje: ");
+            fgets(texto, MAX - 2, stdin);     
+            limpiarTexto(texto);
+            cifrar(K, texto, resultado);
+            printf("Mensaje limpio: %s\n", texto);
+            printf("Cifrado:        %s\n", resultado);
+            break;
+ 
+        case 3:
+            if (!claveLista) {
+                printf("Primero ingresa una clave (opcion 1).\n");
+                break;
+            }
+            printf("Mensaje cifrado: ");
+            fgets(texto, MAX - 2, stdin);
+            limpiarTexto(texto);
+            descifrar(Kinv, texto, resultado);
+            printf("Descifrado: %s\n", resultado);
+            break;
+ 
+        case 0:
+            printf("Hasta luego!\n");
+            break;
+ 
+        default:
+            printf("Opcion no valida.\n");
+        }
+    } while (opcion != 0);
+ 
     return 0;
 }//Fin funcion principal
 
@@ -139,4 +216,35 @@ void cifrar(int K[N][N], const char *mensaje, char *resultado)
             resultado[i + j] = numeroALetra(r[j]);
     }
     resultado[largo] = '\0';
+}
+
+void descifrar(int Kinv[N][N], const char *mensaje, char *resultado)
+{
+    cifrar(Kinv, mensaje, resultado);
+}
+
+void limpiarBuffer(void)
+{
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;              /* descarta lo que sobre en la linea */
+}
+
+int leerClave(int K[N][N])
+{
+    printf("Escribe los 4 numeros de la clave (fila1 y luego fila2): ");
+    for (int i = 0; i < N; i++)
+        for (int j = 0; j < N; j++)
+            if (scanf("%d", &K[i][j]) != 1)
+                return 0;              /* no escribio un numero */
+    return 1;
+}
+
+void mostrarMatriz(int M[N][N])
+{
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++)
+            printf("%4d", M[i][j]);
+        printf("\n");
+    }
 }
